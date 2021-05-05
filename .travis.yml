@@ -9,3 +9,6 @@ install:
 
 script:
   - make test
+
+addons:
+  chrome: stable
