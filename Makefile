@@ -6,7 +6,7 @@ dist/: src/*.py setup.cfg
 	python -m build
 
 clean:
-	rm -rf dist src/easy_selenium_yairfax.egg-info build
+	rm -rf dist easy_selenium_yairfax.egg-info build
 
 upload: dist/
 	python3 -m twine upload --repository testpypi dist/*
