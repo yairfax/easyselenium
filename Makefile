@@ -3,7 +3,7 @@ reinstall: dist/
 	pip install dist/easy_selenium_yairfax-0.0.3-py3-none-any.whl
 	
 dist/: src/*.py setup.cfg
-	python -m build
+	python3 -m build
 
 clean:
 	rm -rf dist easy_selenium_yairfax.egg-info build
@@ -11,3 +11,5 @@ clean:
 upload: dist/
 	python3 -m twine upload --repository testpypi dist/*
 
+test:
+	python3 -m unittest -v tests.easyselenium_tests
