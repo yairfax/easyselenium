@@ -3,7 +3,7 @@ python:
   - "3.7"
 
 install:
-  - pip install setuptools
+  - pip install build
   - make reinstall
 
 script:
