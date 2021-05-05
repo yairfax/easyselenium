@@ -4,6 +4,7 @@ python:
 
 install:
   - pip install build
+  - pip install --upgrade virtualenv
   - make reinstall
 
 script:
