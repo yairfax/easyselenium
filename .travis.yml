@@ -5,9 +5,8 @@ python:
 install:
   - pip install build
   - pip install --upgrade virtualenv
-  - wget "https://chromedriver.storage.googleapis.com/91.0.4472.19/chromedriver_linux64.zip"
-  - unzip chromedriver_linux64.zip
-  - sudo mv chromedriver /usr/local/bin/
+  - chmod +x get_chromedriver.sh
+  - ./get_chromedriver.sh
   - make reinstall
 
 script:
