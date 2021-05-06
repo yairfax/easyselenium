@@ -22,37 +22,22 @@ class EasySeleniumTests(unittest.TestCase):
         self.assertFalse(wait_for(make_closure(2), timeout=1))
 
     def test_click_and_wait(self):
-        driver = get_driver()
+        with get_driver() as driver:
+            driver.get("https://www.google.com")
+            btn = [el for el in driver.find_elements_by_class_name("MV3Tnb") if el.text.lower() == "about"][0]
 
-        driver.get("https://www.google.com")
-        btn = [el for el in driver.find_elements_by_class_name("MV3Tnb") if el.text.lower() == "about"][0]
+            click_and_wait(btn)
 
-        click_and_wait(btn)
-
-        self.assertTrue("about.google" in driver.current_url)
-
-        driver.close()
+            self.assertIn("about.google", driver.current_url)
 
     def test_click_nowait(self):
-        driver = get_driver()
-
-        driver.get("https://www.google.com")
-        btn = [el for el in driver.find_elements_by_class_name("MV3Tnb") if el.text.lower() == "about"][0]
-
-        btn.click()
-
-        self.assertFalse("about.google" in driver.current_url)
-
-        driver.close()
-    
-    def test_session(self):
-        with Session() as driver:
+        with get_driver() as driver:
             driver.get("https://www.google.com")
+            btn = [el for el in driver.find_elements_by_class_name("MV3Tnb") if el.text.lower() == "about"][0]
 
-            self.assertTrue("google.com" in driver.current_url)
+            btn.click()
 
-        with self.assertRaises(InvalidSessionIdException):
-            driver.get("https://www.google.com")
+            self.assertNotIn("about.google", driver.current_url)
 
 if __name__ == "__main__":
     unittest.main()

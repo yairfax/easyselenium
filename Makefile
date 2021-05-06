@@ -12,4 +12,4 @@ upload: dist/
 	python3 -m twine upload --repository testpypi dist/*
 
 test: reinstall
-	python3 -m unittest -v tests.easyselenium_tests
+	python3 -W ignore -m unittest -v tests.easyselenium_tests
