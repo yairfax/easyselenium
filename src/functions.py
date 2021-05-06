@@ -1,4 +1,5 @@
 from selenium.common.exceptions import StaleElementReferenceException
+from selenium import webdriver
 from time import sleep
 
 def wait_for(condition_function, timeout=None):
@@ -35,3 +36,30 @@ def click_and_wait(btn):
     """Click on a button and wait for the next page to load."""
     btn.click()
     wait_for(link_has_gone_stale(btn))
+
+def get_driver(headful=False):
+    """Get a Selenium Chrome driver with some useful options set.
+    
+    Kwargs:
+        headful (bool): Whether to launch the browser in headless mode. Default: False
+
+    Returns:
+        The WebDriver object. Note that the user is responsible for closing the session."""
+    options = webdriver.chrome.options.Options()
+    if not headful:
+        options.add_argument('--headless')
+    else:
+        options.add_experimental_option("detach", True)
+    options.add_argument("--disable-infobars")
+    options.add_argument("--start-maximized")
+    options.add_argument('--no-sandbox')
+    options.add_argument("--remote-debugging-port=9222")
+    options.add_argument('--disable-dev-shm-usage')
+    options.add_argument("--disable-extensions")
+    options.add_experimental_option("prefs", { 
+        "profile.default_content_setting_values.notifications": 2
+    })
+
+    headful_str = "headful" if headful else "headless"
+
+    return webdriver.Chrome(options=options)

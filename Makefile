@@ -11,5 +11,5 @@ clean:
 upload: dist/
 	python3 -m twine upload --repository testpypi dist/*
 
-test:
+test: reinstall
 	python3 -m unittest -v tests.easyselenium_tests

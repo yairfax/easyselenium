@@ -1,5 +1,6 @@
 import unittest
 from selenium import webdriver
+from selenium.common.exceptions import InvalidSessionIdException
 from easy_selenium import *
 from time import sleep
 
@@ -14,22 +15,6 @@ def make_closure(timeout):
         return True
     
     return cond
-
-def get_driver():
-    options = webdriver.chrome.options.Options()
-    options.add_argument('--headless')
-    options.add_argument("--disable-infobars")
-    options.add_argument("--start-maximized")
-    options.add_argument('--no-sandbox')
-    options.add_argument("--remote-debugging-port=9222")
-    options.add_argument('--disable-dev-shm-usage')
-    options.add_argument("--disable-extensions")
-    options.add_experimental_option("prefs", { 
-        "profile.default_content_setting_values.notifications": 2
-    })
-
-    return webdriver.Chrome(options=options)
-
 
 class EasySeleniumTests(unittest.TestCase):
     def test_wait_for(self):
@@ -59,6 +44,15 @@ class EasySeleniumTests(unittest.TestCase):
         self.assertFalse("about.google" in driver.current_url)
 
         driver.close()
-        
+    
+    def test_session(self):
+        with Session() as driver:
+            driver.get("https://www.google.com")
+
+            self.assertTrue("google.com" in driver.current_url)
+
+        with self.assertRaises(InvalidSessionIdException):
+            driver.get("https://www.google.com")
+
 if __name__ == "__main__":
     unittest.main()
